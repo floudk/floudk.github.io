@@ -40,22 +40,6 @@ const tableData: Course[] = [
         institution: 'Coursera',
         repoUrl: 'https://element-plus.gitee.io/zh-CN/component/table.html',
     },
-    {
-        startDate: '2016-05-02',
-        endDate: '2016-05-02',
-        name: 'Tom',
-        institution: 'Coursera',
-    },
-    {
-        startDate: '2016-05-02',
-        name: 'Tom',
-        institution: 'Coursera',
-    },
-    {
-        name: 'Nick',
-        institution: 'Coursera',
-        cancel: true,
-    },
 ]
 
 const sortedTableData = computed(() => tableData.sort((a, b) => {
