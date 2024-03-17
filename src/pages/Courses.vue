@@ -36,9 +36,11 @@ interface Course {
 
 const tableData: Course[] = [
     {
-        name: 'Tom',
-        institution: 'Coursera',
-        repoUrl: 'https://element-plus.gitee.io/zh-CN/component/table.html',
+        name: 'Machine Learning Specialization',
+        institution: 'Stanford University(Coursera)',
+        repoUrl: 'https://github.com/floudk/coursera-machine-learning',
+        courseHomePageUrl: 'https://www.coursera.org/specializations/machine-learning-introduction#courses',
+        startDate: '2025-03-17',
     },
 ]
 
