@@ -2,7 +2,7 @@ import { ref } from 'vue';
 
 
 // data used in page/Projects.vue to transmit data to the child component/ProjectList.vue
-interface ProjectData {
+export interface ProjectData {
     tabDescription: string;
 }
 export const courseProps = ref<ProjectData>({

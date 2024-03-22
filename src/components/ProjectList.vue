@@ -7,8 +7,7 @@
 <script lang="ts" setup>
 import { defineProps } from 'vue';
 // @ts-ignore
-import ProjectData from '@/types';
-
+import { ProjectData } from '@/data';
 const props = defineProps<{
   data: ProjectData;
 }>();
