@@ -7,7 +7,8 @@ interface Project {
     name: string;
     brief: string;
     githubUrl: string;
-    role: Array<string>;
+    description: string;
+    myJob: string;
 }
 
 export interface ProjectData {
@@ -21,13 +22,8 @@ export const courseProps = ref<ProjectData>({
             name: "naivegator",
             brief: "Course project of Practice on Android Application Development. (Presented by ByteDance x SJTU)",
             githubUrl: 'https://github.com/Purewhite2019/naivegator',
-            role: ['developer'],
-        },
-        {
-            name: "test",
-            brief: "",
-            githubUrl: 'https://github.com/Purewhite2019/naivegator',
-            role: ['developer'],
+            description:" An Android frontend project developed using Kotlin and Java, based on the open API provided by SJTU, which aims to provide a integrated campus service platform for students.",
+            myJob:'As the developer, I was responsible for the development of the canteen page.',
         },
     ]
 });
