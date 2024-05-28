@@ -53,5 +53,21 @@ export const tableData: Course[] = [
         repoUrl: 'https://github.com/floudk/coursera-machine-learning',
         courseHomePageUrl: 'https://www.coursera.org/specializations/machine-learning-introduction#courses',
         startDate: '2024-03-17',
+        endDate: '2024-05-28',
+        note:'Fundamental knowledge and projects about supervised/unsupervised/reinforcement learning'
+    },
+    {
+        name: 'CS234: Reinforcement Learning',
+        institution: 'Stanford University',
+        repoUrl: 'https://github.com/floudk/cs234-reinforcement-learning',
+        courseHomePageUrl: 'https://web.stanford.edu/class/cs234/',
+        startDate: '2024-05-29',
+    },
+    {
+        name: 'EE374: Blockchain Foundations',
+        institution: 'Stanford University',
+        repoUrl: 'https://github.com/floudk/ee374-blockchain-foundations',
+        courseHomePageUrl: 'https://ee374.stanford.edu/',
+        startDate: '2024-05-29',
     },
 ]
