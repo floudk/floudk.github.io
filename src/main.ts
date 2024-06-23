@@ -7,6 +7,7 @@ import App from './App.vue'
 import Home from './pages/Home.vue'
 import Courses from './pages/Courses.vue'
 import Projects from './pages/Projects.vue'
+import Papers from './pages/Papers.vue'
 
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
@@ -16,6 +17,7 @@ const routes = [
   {path: '/', component: Home},
   {path: '/courses', component: Courses},
   {path: '/projects', component: Projects},
+  {path: '/papers', component: Papers},
 ]
 
 const router = createRouter({

@@ -1,11 +1,11 @@
 <template>
-  <el-collapse class="project-collapse" v-model="activeName" accordion v-for="(project, index) in data.projects">
-    <el-collapse-item :name="index">
+  <el-collapse class="project-collapse" v-model="activeName" accordion>
+    <el-collapse-item v-for="(project, index) in projects" :key="index" :name="index.toString()">
       <template #title>
         <el-text class="project-title mx-1">
           {{ project.name }}
         </el-text>
-        <el-text class="project-brief mx-1" truncated>
+        <el-text class="project-brief mx-1">
           {{ project.brief }}
         </el-text>
       </template>
@@ -14,39 +14,27 @@
         <el-link style="font-size: 20px; margin-left: 15px;" type="primary" :href="project.githubUrl">
           {{ project.name }}
         </el-link>
-      </el-row >
-          <span v-html="highlightDescription(project.description)" style="font-size: 18px;"></span>
-          <br>
-          <span v-html="highlightDescription(project.myJob)" style="font-size: 18px;"></span>
-      <el-row>
-
       </el-row>
-
+      <span v-html="highlightDescription(project.description)" style="font-size: 18px;"></span>
+      <br>
+      <span v-html="highlightDescription(project.myJob)" style="font-size: 18px;"></span>
+      <el-row>
+      </el-row>
     </el-collapse-item>
-
   </el-collapse>
 </template>
 
-
-
 <script lang="ts" setup>
-// @ts-ignore
-import { ProjectData } from '@/data';
-import { ref, type HtmlHTMLAttributes } from 'vue'
-import { computed } from 'vue';
-
-const activeName = ref('0')
+import { ref, defineProps, type Project } from 'vue';
 
 const props = defineProps<{
-  data: ProjectData;
+  projects: Project[];
 }>();
 
-type Highlights = {
-  [key: string]: string[];
-};
+const activeName = ref(0);  // Ensuring activeName is of type Number for consistency
 
-// 使用Highlights类型来声明highlights对象
-const highlights: Highlights = {
+// Define the highlights object for keywords highlighting
+const highlights: Record<string, string[]> = {
   language: ['Python', 'Kotlin', 'Java', 'C++', 'C', 'JavaScript'],
   framework: ['Vue', 'React', 'Angular', 'Spring', 'Flask', 'Django'],
   platform: ['Android', 'iOS', 'Web', 'Desktop'],
@@ -54,27 +42,23 @@ const highlights: Highlights = {
 };
 
 function escapeRegExp(string: string) {
-  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); 
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // Escaping RegExp special characters
 }
 
 function highlightDescription(description: string): string {
   let highlighted = description;
-
-  for (const category in highlights) {
-    for (const keyword of highlights[category]) {
-      console.log(keyword);
+  Object.entries(highlights).forEach(([category, keywords]) => {
+    keywords.forEach(keyword => {
       if (highlighted.includes(keyword)) {
         highlighted = highlighted.replace(
-          new RegExp(escapeRegExp(keyword), 'g'), // 使用转义后的关键词创建正则表达式
-          `<span class="${category + '-highlight'}">${keyword}</span>`
+          new RegExp(escapeRegExp(keyword), 'gi'), // Case-insensitive matching
+          `<span class="${category}-highlight">${keyword}</span>`
         );
       }
-    }
-  }
+    });
+  });
   return highlighted;
 }
-
-
 </script>
 
 <style>

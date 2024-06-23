@@ -50,6 +50,9 @@ const handleSelect = (key: string, keyPath: string[]) => {
     }else if(key === '1'){
         console.log('Open Projects')
         router.push('/projects')
+    }else if(key === '3-3'){
+        console.log('Open Papers')
+        router.push('/papers')
     }
 }
 

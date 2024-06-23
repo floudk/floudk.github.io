@@ -1,0 +1,24 @@
+[
+    {
+      "name": "tab1",
+      "label": "Streaming Processing",
+      "papers": [
+        {
+          "id": 1,
+          "title": "paper1-test",
+          "year": 2022,
+          "conference": "CVPR",
+          "keywords": ["CV", "AI"],
+          "link": "https://github.com/",
+          "description": "this is a test"
+        }
+      ]
+    },
+    {
+        "name": "tab2",
+        "label": "Reinforcement Learning",
+        "papers": [
+
+        ]
+    }
+  ]

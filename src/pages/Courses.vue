@@ -1,5 +1,5 @@
 <template>
-    <el-table class="course-table" :data="sortedData" style="width: 100%" :row-class-name="tableRowClassName" border>
+    <el-table class="course-table" :data="sortedCourses" style="width: 100%" :row-class-name="tableRowClassName" border>
         <el-table-column fixed class="col-name" label="Name" :width="nameColumnWidth">
             <template #default="{ row }">
                 <el-link v-if="row.repoUrl" :href="row.repoUrl" target="_blank">{{ row.name }}</el-link>
@@ -35,8 +35,25 @@
 
 <script lang="ts" setup>
 // @ts-ignore
-import { tableData, Course } from '@/data';
-import { ref, onMounted, onUnmounted } from 'vue';
+import axios from 'axios';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
+import type { Course } from '@/interfaces/Course';
+
+const courses = ref<Course[]>([]);
+
+onMounted(async () => {
+    try {
+        const response = await axios.get('/data/courses.json');
+        courses.value = response.data;
+    } catch (error) {
+        console.error('Failed to load courses:', error);
+    }
+    updateColumnWidth();
+    window.addEventListener('resize', updateColumnWidth);
+});
+onUnmounted(() => {
+    window.removeEventListener('resize', updateColumnWidth);
+});
 
 const getWeight = (course: Course) => {
     if (course.cancel) return 4;
@@ -45,27 +62,18 @@ const getWeight = (course: Course) => {
     if (!course.startDate && !course.endDate) return 2; // planned
     return 5; // default
 };
+const sortedCourses = computed(() => {
+    return courses.value.sort((a, b) => {
+        const weightA = getWeight(a);
+        const weightB = getWeight(b);
 
-const sortedData = tableData.sort((a, b) => {
-    const weightA = getWeight(a);
-    const weightB = getWeight(b);
+        if (weightA === weightB && a.startDate && b.startDate) {
+            return a.startDate.localeCompare(b.startDate);
+        }
 
-    if (weightA === weightB && a.startDate && b.startDate) {
-        return a.startDate.localeCompare(b.startDate);
-    }
-
-    return weightA - weightB;
+        return weightA - weightB;
+    });
 });
-
-
-const tableRowClassName = ({ row }: { row: Course }) => {
-    if (row.cancel) return 'cancel-row';
-    if (row.startDate && !row.endDate) return 'ongoing-row';
-    if (row.startDate && row.endDate) return 'finish-row';
-    if (!row.startDate && !row.endDate) return 'plan-row';
-    return '';
-};
-
 
 
 // 更新列的宽度，使其适应移动设备
@@ -98,6 +106,7 @@ const updateColumnWidth = () => {
         endColumnWidth.value = nameColumnWidth.value*0.45
 
         thFontsize.value = screenWidth / 60;
+        thFontsize.value = thFontsize.value > 20 ? 20 : thFontsize.value;
         document.documentElement.style.setProperty('--course-table-header-name-fontsize', `${thFontsize.value}px`);
         document.documentElement.style.setProperty('--course-table-span-fontsize', `${thFontsize.value*0.8}px`);
     }
@@ -108,11 +117,13 @@ const updateColumnWidth = () => {
     // console.log("更新字体大小：", thFontsize.value);
 };
 
-onMounted(() => {
-    updateColumnWidth();
-    window.addEventListener('resize', updateColumnWidth);
-});
-
+const tableRowClassName = ({ row }: { row: Course }) => {
+    if (row.cancel) return 'cancel-row';
+    if (row.startDate && !row.endDate) return 'ongoing-row';
+    if (row.startDate && row.endDate) return 'finished-row';
+    if (!row.startDate && !row.endDate) return 'planned-row';
+    return '';
+};
 </script>
 
 <style>
@@ -138,7 +149,7 @@ onMounted(() => {
     --el-table-row-hover-bg-color: #fff42127;
 }
 
-.el-table .finish-row {
+.el-table .finished-row {
     --el-table-tr-bg-color: var(--el-color-success-light-9);
     --el-table-row-hover-bg-color: var(--el-color-success-light-8);
 }
@@ -148,7 +159,7 @@ onMounted(() => {
     --el-table-row-hover-bg-color: var(--el-color-info-light-8);
 }
 
-.el-table .plan-row {
+.el-table .planned-row {
     --el-table-tr-bg-color: var(--el-color-primary-light-9);
     --el-table-row-hover-bg-color: var(--el-color-primary-light-8);
 }
