@@ -25,7 +25,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, defineProps, type Project } from 'vue';
+import { ref, defineProps} from 'vue';
+import type { Project } from '@/interfaces/Project';
 
 const props = defineProps<{
   projects: Project[];

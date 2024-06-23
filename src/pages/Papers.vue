@@ -21,11 +21,13 @@
 <script lang="ts">
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
+import type { TabsPaneContext } from 'element-plus';
+import type { Tab, Paper } from '@/interfaces/Paper';
 
 export default {
     setup() {
         const activeName = ref('tab1');
-        const tabs = ref([]);
+        const tabs = ref<Tab[]>([]);  // 使用接口定义tabs的类型
 
         onMounted(() => {
             axios.get('/data/papers.json')
@@ -37,7 +39,7 @@ export default {
                 });
         });
 
-        function handleClick(tab) {
+        function handleClick(tab: TabsPaneContext) {
             console.log('Tab clicked:', tab);
         }
 
